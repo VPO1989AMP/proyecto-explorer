@@ -1,6 +1,8 @@
 const express= require("express")
-const {Web3} = require("Web3")
+const { Web3 } = require("web3");
+const cors = require("cors")
 const app = express();
+app.use(cors());
 const URL_INFURA = "https://mainnet.infura.io/v3/cd69ba0af5044acbb37d50bee8be7bb5"
 
 const port = process.env.PORT || 5555;
@@ -9,15 +11,24 @@ const web3 = new Web3(URL_INFURA)
 
 
 app.get("/bloque/:bloque",async (req,res)=>{
-    const bloque = await web3.eth.getBlock(req.params.bloque)
-    const convertedBlock = convertBigIntToString(bloque);
-    res.send(convertedBlock);
+    try{
+        const bloque = await web3.eth.getBlock(req.params.bloque)
+        const convertedBlock = convertBigIntToString(bloque);
+        res.send(convertedBlock);
+    }catch(error){
+        res.send(error)
+
+    }
 })
 
 app.get("/tx/:tx",async (req,res)=>{
-    const tx= await web3.eth.getTransaction(req.params.tx)
-    deleteBigInt(tx)
-    res.send(tx)
+    try{
+        const tx= await web3.eth.getTransaction(req.params.tx)
+        deleteBigInt(tx)
+        res.send(tx)
+    }catch (error){
+        res.send(error)
+    }
 })
 
 function deleteBigInt(obj) {
@@ -29,10 +40,14 @@ function deleteBigInt(obj) {
 }
 
 app.get("/balance/:address",async (req,res)=>{
-    const balance = await web3.eth.getBalance(req.params.address)
-    const convertedBalance = (web3.utils.fromWei(balance, 'ether')).toString()
-    console.log(convertedBalance)
-    res.send({Balance:  convertedBalance})
+    try{
+        const balance = await web3.eth.getBalance(req.params.address)
+        const convertedBalance = (web3.utils.fromWei(balance, 'ether')).toString()
+        console.log(convertedBalance)
+        res.send({Balance:  convertedBalance})
+    }catch (error){
+        res.send(error)
+    }
 
 })
 
