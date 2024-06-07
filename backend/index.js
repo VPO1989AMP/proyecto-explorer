@@ -43,7 +43,7 @@ app.get("/balance/:address",async (req,res)=>{
     try{
         const balance = await web3.eth.getBalance(req.params.address)
         const convertedBalance = (web3.utils.fromWei(balance, 'ether')).toString()
-        console.log(convertedBalance)
+        //console.log(convertedBalance)
         res.send({Balance:  convertedBalance})
     }catch (error){
         res.send(error)

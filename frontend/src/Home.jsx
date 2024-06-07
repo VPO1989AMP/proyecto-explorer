@@ -24,11 +24,13 @@ export function Home(){
     };
     
     return <div className="container"> 
-        <h3>Explorador de la cadena de Ethereum</h3>
-            <form onSubmit={handleSubmit(submitForm)}>
-                <input {...register("data")}></input>
+        <h3 className="text-center">Explorador de la cadena de Ethereum</h3>
+            <form className='d-flex justify-content-center gap-1' onSubmit={handleSubmit(submitForm)}>
+                <input className="container" {...register("data")} size={70}></input>
                 <button className="btn btn-primary">GO</button>
             </form>
-        <Outlet></Outlet>
+        <div className="border my-3 p-2">
+            <Outlet></Outlet>
+        </div>
     </div>
 }
